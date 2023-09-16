@@ -223,7 +223,7 @@ const Register = () => {
                   <Link
                     to="/terms_and_conditions"
                     className="text-gray-700 underline mx-2">
-                    terms and conditions
+                    Terms and conditions
                   </Link>
                   and
                   <Link

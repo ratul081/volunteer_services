@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider";
 
-const TermsAndConditions = () => {
+const TermAndCondition = () => {
   const { user } = useContext(AuthContext);
   return (
     <div className="text-center m-12 space-y-6 min-h-screen">
@@ -12,6 +12,7 @@ const TermsAndConditions = () => {
           Ancestry Terms and Conditions
           <br />
         </p>
+
         <p>
           Summary of Changes
           <br />
@@ -382,4 +383,4 @@ const TermsAndConditions = () => {
   );
 };
 
-export default TermsAndConditions;
+export default TermAndCondition;

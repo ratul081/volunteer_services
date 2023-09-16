@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -7,6 +7,7 @@ import { AuthContext } from "../../../Context/AuthProvider";
 
 const LogIn = () => {
   const { singIn, googleSingIn } = useContext(AuthContext);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
@@ -16,17 +17,17 @@ const LogIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log(errors);
   const handleLogIn = (data) => {
     const { email, password } = data;
     singIn(email, password)
       .then((result) => {
         const user = result.user;
-        console.log("🚀 ~ file: LogIn.jsx:19 ~ handleLogIn ~ user:", user);
+        toast.success("Login success");
         navigate(from, { replace: true });
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        toast.error(error.message);
+        setError(error.message);
       });
   };
 
@@ -34,10 +35,12 @@ const LogIn = () => {
     googleSingIn(googleProvider)
       .then((result) => {
         const user = result.user;
-        console.log("🚀 ~ file: LogIn.jsx:19 ~ handleLogIn ~ user:", user);
+        toast.success("Login success");
+        navigate(from, { replace: true });
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        toast.error(error.message);
+        setError(error.message);
       });
   };
 
@@ -115,6 +118,9 @@ const LogIn = () => {
               className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
               Sign In
             </button>
+            <div className="my-2 text-red-600">
+            {error ? error : ""}
+            </div>
           </div>
         </form>
         <div className="flex items-center justify-between mt-4">
@@ -124,7 +130,7 @@ const LogIn = () => {
           </button>
           <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4" />
         </div>
-        <a
+        <Link
           onClick={handleGoogleSingIn}
           className="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
           <div className="px-4 py-2 ">
@@ -150,7 +156,7 @@ const LogIn = () => {
           <span className="w-5/6 px-4 py-3 font-bold text-center">
             Sign in with Google
           </span>
-        </a>
+        </Link>
         <div className="flex items-center justify-between my-4">
           <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
           <p>

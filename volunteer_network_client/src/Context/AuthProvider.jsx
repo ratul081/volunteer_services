@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   sendEmailVerification,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
@@ -52,7 +53,6 @@ const AuthProvider = ({ children }) => {
         "🚀 ~ file: AuthProvider.jsx:23 ~ unSubscribe ~ currentUser:",
         currentUser
       );
-      ``;
       setLoading(false);
     });
     return () => {

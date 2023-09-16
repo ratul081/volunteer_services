@@ -50,7 +50,7 @@ export const routes = createBrowserRouter([
         element: <Blogs></Blogs>,
       },
       {
-        path: "/terms_and_condition",
+        path: "/terms_and_conditions",
         element: <TermsAndConditions></TermsAndConditions>,
       },
     ],
