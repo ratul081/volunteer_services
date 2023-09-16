@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthProvider";
 
 const Header = () => {
+  const { user, logOut } = useContext(AuthContext);
+  console.log("🚀 ~ file: Header.jsx:7 ~ Header ~ user:", user);
+  const handleLogOut = () => {
+    logOut();
+  };
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -25,21 +31,34 @@ const Header = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-              <a>Item 1</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
+              <NavLink
+                to="/donation"
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "text-orange-600" : ""
+                }>
+                Donation
+              </NavLink>
             </li>
             <li>
-              <a>Item 3</a>
+              <NavLink
+                to="/blogs"
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "text-orange-600" : ""
+                }>
+                Blogs
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/orders"
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "text-orange-600" : ""
+                }>
+                Orders
+              </NavLink>
             </li>
           </ul>
         </div>
@@ -52,7 +71,7 @@ const Header = () => {
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 text-2xl">
+        <ul className="space-x-8 menu-horizontal px-1 text-2xl">
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -67,15 +86,6 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              to="/events"
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "text-orange-600" : ""
-              }>
-              Events
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
               to="/blogs"
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "text-orange-600" : ""
@@ -83,20 +93,68 @@ const Header = () => {
               Blogs
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/orders"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "text-orange-600" : ""
+              }>
+              Orders
+            </NavLink>
+          </li>
         </ul>
       </div>
       <div className="navbar-end space-x-3">
-        <a className="btn btn-neutral text-lg normal-case">Login</a>
-        <a className="btn btn-neutral text-lg normal-case">Sing up</a>
+        {user?.uid ? (
+          <>
+            <div className="dropdown dropdown-hover dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img
+                    src={
+                      user?.photoURL
+                        ? user?.photoURL
+                        : "https://i.postimg.cc/kXm44xCH/1b96ad1f07feee81fa83c877a1e350ce.png"
+                    }
+                    alt=""
+                  />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                <li>
+                  <p className="text-2xl font-bold">{user?.displayName}</p>
+                </li>
+                <li>
+                  <Link to="/profile" className="justify-between">
+                    Profile
+                    <span className="badge">New</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link>Settings</Link>
+                </li>
+                <li>
+                  <button onClick={handleLogOut}>Logout</button>
+                </li>
+              </ul>
+            </div>
+            <button onClick={handleLogOut}>Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="btn normal-case btn-md">
+              Login
+            </Link>
+            <Link to="/register" className="btn normal-case btn-md">
+              Register
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
 };
 
 export default Header;
-
-// https://i.ibb.co/hV6McG3/cloud-upload-outline-1.png
-// https://i.ibb.co/dbhrWTs/Group-1329.png
-// https://i.ibb.co/sP92x79/plus-1.png
-// https://i.ibb.co/1sMqgGH/trash-2-9.png
-// https://i.ibb.co/v4rWXx0/users-alt-1.png
