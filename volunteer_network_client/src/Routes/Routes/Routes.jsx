@@ -8,6 +8,7 @@ import LogIn from "../../Component/Login/LogIn/LogIn";
 import Blogs from "../../Component/Blogs/Blogs";
 import Register from "../../Component/login/Register/Register";
 import PrivateRoute from "../Private Route/PrivateRoute";
+import TermsAndConditions from "../../Component/Others/TermsAndConditions";
 
 export const routes = createBrowserRouter([
   {
@@ -49,8 +50,8 @@ export const routes = createBrowserRouter([
         element: <Blogs></Blogs>,
       },
       {
-        path: "/dakdwl;ad",
-        element: <Blogs></Blogs>,
+        path: "/terms_and_condition",
+        element: <TermsAndConditions></TermsAndConditions>,
       },
     ],
   },

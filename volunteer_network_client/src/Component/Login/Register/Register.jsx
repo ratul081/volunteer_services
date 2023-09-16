@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../Context/AuthProvider";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
-
+  const { createUser, verifyEmail, updateUserProfile } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -17,15 +18,37 @@ const Register = () => {
   } = useForm();
   // console.log(errors);
   const handleSingUp = (data) => {
-    const { email, password } = data;
+    const { email, password, firstName, lastName } = data;
     createUser(email, password)
       .then((result) => {
         const user = result.user;
         console.log("🚀 ~ file: Register.jsx:24 ~ handleSingUp ~ user:", user);
+        reset();
+        handleUpdateUser(firstName, lastName);
+        handleEmailVerification();
+        toast.success("An email is sent to you for verification")
+        navigate("/");
       })
       .catch((error) => {
         toast.error(error.message);
       });
+  };
+  const handleUpdateUser = (firstName, lastName) => {
+    const profile = {
+      displayName: firstName + " " + lastName,
+    };
+    updateUserProfile(profile)
+      .then(() => {
+        // toast.success("Profile updated successfully");
+      })
+      .catch((error) => console.error(error));
+  };
+  const handleEmailVerification = () => {
+    verifyEmail()
+      .then(() => {
+        // toast.success("An email is sent to you for verification");
+      })
+      .catch((error) => console.error(error));
   };
   return (
     <section className="bg-white lg:m-40">
