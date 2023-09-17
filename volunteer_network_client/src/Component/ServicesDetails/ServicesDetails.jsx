@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLoaderData } from "react-router-dom";
 
 const ServicesDetails = () => {
-  const { title, photoURL, description } = useLoaderData().data;
+  const { _id, title, photoURL, description } = useLoaderData().data;
 
   return (
     <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-2xl md:px-12 lg:px-4 lg:py-20">
@@ -12,8 +12,10 @@ const ServicesDetails = () => {
             {title}
           </h5>
           <p className="mb-6 text-gray-900 text-justify">{description}</p>
-          <Link className="btn normal-case text-xl btn-accent">
-          Join now
+          <Link
+            to={`/checkout/${_id}`}
+            className="btn normal-case text-xl btn-accent">
+            Join now
           </Link>
         </div>
         <div>

@@ -1,10 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useLoaderData } from "react-router-dom";
 
 const CheckOut = () => {
-  const {title, description} = useLoaderData().data
-  console.log("🚀 ~ file: CheckOut.jsx:7 ~ CheckOut ~ title:", title)
   const {
     register,
     handleSubmit,
@@ -16,7 +13,6 @@ const CheckOut = () => {
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
           <div className="lg:col-span-2 lg:py-12">
-            <h1 className="my-3">{title}</h1>
             <p className="max-w-xl text-lg">
               At the same time, the fact that we are wholly owned and totally
               independent from manufacturer and other group control gives you
@@ -75,11 +71,9 @@ const CheckOut = () => {
                     {...register("participationType")}
                     type="radio"
                     value="During Event"
-                    tabIndex={-1}
                   />
                   <label
                     htmlFor="option1"
-                    tabIndex={0}
                     className="block w-full rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white">
                     <span className="text-sm">During Event</span>
                   </label>
@@ -91,11 +85,9 @@ const CheckOut = () => {
                     {...register("participationType")}
                     type="radio"
                     value="Full-time"
-                    tabIndex={-1}
                   />
                   <label
                     htmlFor="option2"
-                    tabIndex={0}
                     className="block w-full rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white">
                     <span className="text-sm">Full-time</span>
                   </label>
@@ -107,11 +99,9 @@ const CheckOut = () => {
                     {...register("participationType")}
                     type="radio"
                     value="Part-time"
-                    tabIndex={-1}
                   />
                   <label
                     htmlFor="option3"
-                    tabIndex={0}
                     className="block w-full rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white">
                     <span className="text-sm">Part-time</span>
                   </label>

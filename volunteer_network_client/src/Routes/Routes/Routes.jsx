@@ -9,6 +9,7 @@ import Blogs from "../../Component/Blogs/Blogs";
 import Register from "../../Component/login/Register/Register";
 import PrivateRoute from "../Private Route/PrivateRoute";
 import TermsAndConditions from "../../Component/Others/TermsAndConditions";
+import CheckOut from "../../Component/CheckOut/CheckOut";
 
 export const routes = createBrowserRouter([
   {
@@ -52,6 +53,12 @@ export const routes = createBrowserRouter([
       {
         path: "/terms_and_conditions",
         element: <TermsAndConditions></TermsAndConditions>,
+      },
+      {
+        path: "/checkout/:id",
+        element: <CheckOut></CheckOut>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/services/${params.id}`),
       },
     ],
   },
