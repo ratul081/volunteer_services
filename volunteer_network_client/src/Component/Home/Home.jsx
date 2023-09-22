@@ -1,7 +1,5 @@
-import { data } from "autoprefixer";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import Service from "./Service";
 
 const Home = () => {
@@ -39,7 +37,6 @@ const Home = () => {
           {/* register your input into the hook by invoking the "register" function */}
           <input
             className="input input-bordered w-full max-w-xs"
-            defaultValue=""
             {...register("search")}
           />
           <button

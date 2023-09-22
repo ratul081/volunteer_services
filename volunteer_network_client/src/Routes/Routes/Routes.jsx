@@ -10,6 +10,8 @@ import Register from "../../Component/login/Register/Register";
 import PrivateRoute from "../Private Route/PrivateRoute";
 import TermsAndConditions from "../../Component/Others/TermsAndConditions";
 import CheckOut from "../../Component/CheckOut/CheckOut";
+import Profile from "../../Component/Profile/Profile";
+// import Dashboard from "../../Component/DashBoard/Dashboard";
 
 export const routes = createBrowserRouter([
   {
@@ -39,6 +41,22 @@ export const routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Orders></Orders>
+          </PrivateRoute>
+        ),
+      },
+      // {
+      //   path: "/dashboard",
+      //   element: (
+      //     <PrivateRoute>
+      //       <Dashboard></Dashboard>
+      //     </PrivateRoute>
+      //   ),
+      // },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
           </PrivateRoute>
         ),
       },
