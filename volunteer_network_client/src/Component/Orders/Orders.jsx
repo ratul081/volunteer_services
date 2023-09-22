@@ -37,7 +37,7 @@ const Orders = () => {
   return (
     <div className="lg:m-12 py-12">
       {/* Desktop Responsive Start */}
-      { orders.length === 0 ? (
+      {orders.length === 0 ? (
         <div className="text-4xl flex flex-col text-center space-y-6 my-12">
           <p>No orders yet continue booking</p>
           <p>
