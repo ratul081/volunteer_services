@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const OrderMobile = ({ order }) => {
-  const { service_id, service_name, phoneNumber, name, endDate, startDate } =
-    order;
+const OrderMobile = ({ order,handleDeleted }) => {
+  const {
+    _id,
+    service_id,
+    service_name,
+    phoneNumber,
+    name,
+    endDate,
+    startDate,
+  } = order;
   const [bookedService, setBookedService] = useState([]);
   useEffect(() => {
     const unsubscribe = () => {
@@ -47,30 +54,13 @@ const OrderMobile = ({ order }) => {
           </Link>
         </div>
         <div>
-          <button className="focus:outline-none focus:ring-red-800 focus:ring-offset-2 focus:ring-2 text-base leading-none text-red-600 hover:text-red-800">
-            <p
-              onClick={() => document.getElementById("my_modal_5").showModal()}>
-              Remove Item
-            </p>
+          <button
+            onClick={() => handleDeleted(_id)}
+            className="focus:outline-none focus:ring-red-800 focus:ring-offset-2 focus:ring-2 text-base leading-none text-red-600 hover:text-red-800">
+            <p>Remove Item</p>
           </button>
         </div>
       </div>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <button className="btn">open modal</button>
-      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
     </div>
   );
 };

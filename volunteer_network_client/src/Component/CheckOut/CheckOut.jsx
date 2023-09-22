@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider";
-import { data } from "autoprefixer";
 import toast from "react-hot-toast";
 
 const CheckOut = () => {
@@ -84,7 +83,6 @@ const CheckOut = () => {
                   </label>
                   <input
                     type="email"
-                    disabled
                     {...register("email", { required: "Email is required" })}
                     className="w-full rounded-lg border-gray-200 p-3 text-lg"
                     defaultValue={user?.email ? user.email : ""}

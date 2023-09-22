@@ -22,6 +22,25 @@ const LogIn = () => {
     singIn(email, password)
       .then((result) => {
         const user = result.user;
+        const currentUser = {
+          email: user.email,
+        };
+        console.log(
+          "🚀 ~ file: LogIn.jsx:28 ~ .then ~ currentUser:",
+          currentUser
+        );
+        //get jwt token
+        fetch("http://localhost:5000/jwt", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(currentUser),
+        })
+          .then((res) => res.json())
+          .then((data) =>
+            localStorage.setItem("volunteerNetworkToken", data.token)
+          );
         toast.success("Login success");
         navigate(from, { replace: true });
       })
@@ -118,9 +137,7 @@ const LogIn = () => {
               className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
               Sign In
             </button>
-            <div className="my-2 text-red-600">
-            {error ? error : ""}
-            </div>
+            <div className="my-2 text-red-600">{error ? error : ""}</div>
           </div>
         </form>
         <div className="flex items-center justify-between mt-4">
