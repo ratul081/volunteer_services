@@ -18,14 +18,15 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const url = `http://localhost:5000/services?page=${page}&size=${size}`;
+    const url = `https://volunteer-network-server-ratul-44.vercel.app/services?page=${page}&size=${size}`;
     console.log(`page= ${page} size= ${size}`);
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
+        console.log("🚀 ~ file: Home.jsx:26 ~ .then ~ data:", data)
         setCount(data.data.count);
-        setServices(data.data.services);
         setRefresh(true);
+        setServices(data.data.services);
       });
   }, [page, size]);
 
@@ -47,39 +48,48 @@ const Home = () => {
           </button>
         </form>
       </div>
-      {!refresh ? (
+      {(services.length===0) ? (
         <>
           <p className="text-7xl flex justify-center m-12">No data found</p>
         </>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-8 gap-4 lg:gap-12 mx-4 md:mx-8 lg:mx-12 my-8 md:my-12 lg:my-24 place-items-center">
-            {services.map((service) => (
-              <Service key={service._id} service={service}></Service>
-            ))}
-          </div>
+          {refresh ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-8 gap-4 lg:gap-12 mx-4 md:mx-8 lg:mx-12 my-8 md:my-12 lg:my-24 place-items-center">
+                {services.map((service) => (
+                  <Service key={service._id} service={service}></Service>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="flex justify-center items-center min-h-screen">
+              <span className="text-5xl loading loading-spinner loading-lg"></span>
+            </div>
+          )}
         </>
       )}
       {/* <div className="text-center"> selected page= {page}</div> */}
-      <div className="join flex flex-row justify-center my-3">
-        {[...Array(pages).keys()].map((number) => (
-          <button
-            key={number}
-            className="mx-2 text-lg join-item btn"
-            onClick={() => setPage(number)}>
-            {number + 1}
-          </button>
-        ))}
-        <select
-          onChange={(event) => setSize(event.target.value)}
-          className="select select-bordered">
-          <option selected value={5}>
-            5
-          </option>
-          <option value={10}>10</option>
-          <option value={15}>15</option>
-        </select>
-      </div>
+      {services.length && (
+        <div className="join flex flex-row justify-center my-3">
+          {[...Array(pages).keys()].map((number) => (
+            <button
+              key={number}
+              className="mx-2 text-lg join-item btn"
+              onClick={() => setPage(number)}>
+              {number + 1}
+            </button>
+          ))}
+          <select
+            defaultValue={5}
+            onChange={(event) => setSize(event.target.value)}
+            className="select select-bordered">
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={15}>15</option>
+          </select>
+        </div>
+      )}
     </div>
   );
 };

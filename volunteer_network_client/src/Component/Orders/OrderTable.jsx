@@ -14,7 +14,9 @@ const OrderTable = ({ order, handleDeleted }) => {
   const [bookedService, setBookedService] = useState([]);
   useEffect(() => {
     const unsubscribe = () => {
-      fetch(`http://localhost:5000/services/${service_id}`)
+      fetch(
+        `https://volunteer-network-server-ratul-44.vercel.app/services/${service_id}`
+      )
         .then((res) => res.json())
         .then((data) => setBookedService(data.data));
     };

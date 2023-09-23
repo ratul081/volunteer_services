@@ -27,7 +27,7 @@ const CheckOut = () => {
       message,
       phoneNumber,
     };
-    fetch("http://localhost:5000/orders", {
+    fetch("https://volunteer-network-server-ratul-44.vercel.app/orders", {
       method: "POST",
       headers: {
         "content-type": "application/json",

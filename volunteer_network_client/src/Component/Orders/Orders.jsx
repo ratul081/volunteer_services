@@ -6,24 +6,37 @@ import OrderMobile from "./OrderMobile";
 import toast from "react-hot-toast";
 
 const Orders = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:5000/orders?email=${user.email}`,
-    {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("volunteerNetworkToken")}`
+    fetch(
+      `https://volunteer-network-server-ratul-44.vercel.app/orders?email=${user.email}`,
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem(
+            "volunteerNetworkToken"
+          )}`,
+        },
       }
-    }
     )
       .then((res) => res.json())
-      .then((data) => setOrders(data.data));
+      .then((data) => setOrders(data.data ? data.data : []));
   }, [user?.email]);
   const handleDeleted = (id) => {
-    const proceed = window.confirm('Are you sure you want to delete')
+    const proceed = window.confirm("Are you sure you want to delete");
     if (proceed) {
-      fetch(`http://localhost:5000/orders/${id}`, { method: "DELETE" })
-        .then((res) => res.json())
+      fetch(
+        `https://volunteer-network-server-ratul-44.vercel.app/orders/${id}`,
+        {
+          method: "DELETE",
+        }
+      )
+        .then((res) => {
+          if (res.status === 401 || res.status === 403) {
+            logout();
+          }
+          res.json();
+        })
         .then((data) => {
           console.log("🚀 ~ file: Orders.jsx:25 ~ .then ~ data:", data);
           if (data.deletedCount > 0) {
@@ -37,7 +50,7 @@ const Orders = () => {
   return (
     <div className="lg:m-12 py-12">
       {/* Desktop Responsive Start */}
-      {orders.length === 0 ? (
+      {orders?.length === 0 ? (
         <div className="text-4xl flex flex-col text-center space-y-6 my-12">
           <p>No orders yet continue booking</p>
           <p>
@@ -46,12 +59,12 @@ const Orders = () => {
         </div>
       ) : (
         <div className="hidden sm:flex flex-col justify-start items-start">
-          <div className="pl-4 lg:px-10 2xl:px-20 flex flex-row justify-center items-end">
+          <div className="pl-4 lg:px-10 2xl:px-20 flex flex-row justify-center items-end space-x-3">
             <h1 className="text-4xl font-semibold leading-9 text-gray-800">
               Favourites
             </h1>
             <p className="text-base leading-4 text-gray-600 pb-1">
-              ({orders.length} Items)
+              ( {orders.length} Items)
             </p>
           </div>
           <table className="w-full mt-16 whitespace-nowrap">
@@ -79,7 +92,7 @@ const Orders = () => {
             {orders &&
               orders.map((order) => (
                 <OrderTable
-                  key={order._id}
+                  key={order?._id}
                   order={order}
                   handleDeleted={handleDeleted}></OrderTable>
               ))}
@@ -95,12 +108,12 @@ const Orders = () => {
               Favourites
             </p>
             <p className="text-base leading-4 text-gray-600 pb-1">
-              ({orders.length} Items)
+              ({orders?.length} Items)
             </p>
           </div>
           {orders.map((order) => (
             <OrderMobile
-              key={order._id}
+              key={order?._id}
               handleDeleted={handleDeleted}
               order={order}></OrderMobile>
           ))}

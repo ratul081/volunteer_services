@@ -11,7 +11,6 @@ import PrivateRoute from "../Private Route/PrivateRoute";
 import TermsAndConditions from "../../Component/Others/TermsAndConditions";
 import CheckOut from "../../Component/CheckOut/CheckOut";
 import Profile from "../../Component/Profile/Profile";
-// import Dashboard from "../../Component/DashBoard/Dashboard";
 
 export const routes = createBrowserRouter([
   {
@@ -30,7 +29,9 @@ export const routes = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/services/${params.id}`),
+          fetch(
+            `https://volunteer-network-server-ratul-44.vercel.app/services/${params.id}`
+          ),
       },
       {
         path: "/register",
@@ -44,14 +45,6 @@ export const routes = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      // {
-      //   path: "/dashboard",
-      //   element: (
-      //     <PrivateRoute>
-      //       <Dashboard></Dashboard>
-      //     </PrivateRoute>
-      //   ),
-      // },
       {
         path: "/profile",
         element: (
@@ -76,7 +69,9 @@ export const routes = createBrowserRouter([
         path: "/checkout/:id",
         element: <CheckOut></CheckOut>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/services/${params.id}`),
+          fetch(
+            `https://volunteer-network-server-ratul-44.vercel.app/services/${params.id}`
+          ),
       },
     ],
   },

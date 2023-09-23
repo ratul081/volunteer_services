@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../Context/AuthProvider";
+import { setAuthToken } from "../../Utilities/Api";
 
 const Register = () => {
   const { createUser, verifyEmail, updateUserProfile } =
@@ -26,6 +27,7 @@ const Register = () => {
         reset();
         handleUpdateUser(firstName, lastName);
         handleEmailVerification();
+        setAuthToken(user)
         toast.success("An email is sent to you for verification")
         navigate("/");
       })

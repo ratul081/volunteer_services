@@ -70,6 +70,7 @@ const AuthProvider = ({ children }) => {
     passwordReset,
     logOut,
     loading,
+    setLoading
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

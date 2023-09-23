@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { GoogleAuthProvider } from "firebase/auth";
 import { AuthContext } from "../../../Context/AuthProvider";
+import { setAuthToken } from "../../Utilities/Api";
 
 const LogIn = () => {
   const { singIn, googleSingIn } = useContext(AuthContext);
@@ -22,25 +23,7 @@ const LogIn = () => {
     singIn(email, password)
       .then((result) => {
         const user = result.user;
-        const currentUser = {
-          email: user.email,
-        };
-        console.log(
-          "🚀 ~ file: LogIn.jsx:28 ~ .then ~ currentUser:",
-          currentUser
-        );
-        //get jwt token
-        fetch("http://localhost:5000/jwt", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(currentUser),
-        })
-          .then((res) => res.json())
-          .then((data) =>
-            localStorage.setItem("volunteerNetworkToken", data.token)
-          );
+        setAuthToken(user);
         toast.success("Login success");
         navigate(from, { replace: true });
       })
@@ -54,6 +37,8 @@ const LogIn = () => {
     googleSingIn(googleProvider)
       .then((result) => {
         const user = result.user;
+        //get jwt token
+        setAuthToken(user);
         toast.success("Login success");
         navigate(from, { replace: true });
       })

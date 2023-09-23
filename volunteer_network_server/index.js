@@ -14,11 +14,12 @@ app.get("/", (req, res) => {
   res.send("Volunteer Network server is running")
 })
 //MongoDB conection
-const user = "volunteer_network"
-const password = "volunteer_network"
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_USERNAME_PASSWORD}@cluster0.xige0uf.mongodb.net/?retryWrites=true&w=majority`;
 // const uri = "mongodb://localhost:27017/";
-const client = new MongoClient(uri);
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 async function dbConnect() {
   try {
@@ -42,20 +43,33 @@ function verifyJWT(req, res, next) {
     });
   }
   const token = authHeader.split(" ")[1];
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) { // Correct variable name from 'coded' to 'decoded'
-    if (err) {
-      return res.status(403).send({ message: "Unauthorized access" });
-    }
-    req.decoded = decoded;
-    next();
-  });
+  try {
+    // const decoded = jwt.verify(token, process.env.ACCESS_SECRET_TOKEN);
+    // req.decoded = decoded;
+    // next();
+    jwt.verify(token, process.env.ACCESS_SECRET_TOKEN, (err, decoded) => {
+      console.log("🚀 ~ file: index.js:50 ~ jwt.verify ~ err:", err)
+      if (err) {
+        return res.status(403).send({ message: "Unauthorized access 403" });
+      }
+      req.decoded = decoded;
+      console.log(decoded);
+      next();
+    })
+  } catch (error) {
+    console.log(error.name.bgRed, error.message.bold);
+    res.status(500).send({
+      success: false,
+      error: error.message,
+    });
+  }
 }
 
 app.post('/jwt', (req, res) => {
   try {
     const user = req.body;
-    console.log("🚀 ~ file: index.js:52 ~ user:", user);
-    const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN, { expiresIn: "30d" });
+    const token = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN);
+    console.log("🚀 ~ file: index.js:59 ~ app.post ~ process.env.ACCESS_SECRET_TOKEN:", process.env.ACCESS_SECRET_TOKEN)
     res.send({ token });
   } catch (error) {
     console.log(error.name.bgRed, error.message.bold);
@@ -72,7 +86,6 @@ app.get("/services", async (req, res) => {
     const page = parseInt(req.query.page)
     const size = parseInt(req.query.size)
     const skipNumber = page * size
-    console.log(page, size, skipNumber);
     const query = {}
     const cursor = volunteerServices.find(query)
     const count = await volunteerServices.estimatedDocumentCount()
@@ -131,10 +144,9 @@ app.post("/orders", async (req, res) => {
 
 app.get("/orders", verifyJWT, async (req, res) => {
   try {
-    const decoded = req.decoded;
-    console.log("🚀 ~ file: index.js:135 ~ app.get ~ decoded:", decoded)
+    const decoded = req.decoded
     if (decoded.email !== req.query.email) {
-      res.status(403).send({ massage: "Unauthorized access" })
+      res.status(403).send({ message: 'unauthorized access' })
     }
     let query = {}
     if (req.query.email) {
